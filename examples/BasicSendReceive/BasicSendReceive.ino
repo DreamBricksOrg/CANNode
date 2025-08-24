@@ -34,6 +34,7 @@ void setup() {
 
   Serial.println("[INIT] Starting CANNode...");
   try {
+    // Starts at 1 Mbps by default. Pass a CANSpeed to change it, e.g. CAN_SPEED_500KBPS
     canNode.begin();
     canNode.setReceiveCallback(onReceive);
     Serial.println("[INIT] CANNode started!");

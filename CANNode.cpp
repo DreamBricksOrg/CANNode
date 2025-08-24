@@ -13,9 +13,24 @@ CANNode::~CANNode() {
     }
 }
 
-void CANNode::begin() {
+void CANNode::begin(CANSpeed speed) {
     twai_general_config_t g_config = TWAI_GENERAL_CONFIG_DEFAULT(_txPin, _rxPin, TWAI_MODE_NORMAL);
-    twai_timing_config_t t_config = TWAI_TIMING_CONFIG_1MBITS();
+    twai_timing_config_t t_config;
+    switch (speed) {
+        case CAN_SPEED_500KBPS:
+            t_config = TWAI_TIMING_CONFIG_500KBITS();
+            break;
+        case CAN_SPEED_250KBPS:
+            t_config = TWAI_TIMING_CONFIG_250KBITS();
+            break;
+        case CAN_SPEED_125KBPS:
+            t_config = TWAI_TIMING_CONFIG_125KBITS();
+            break;
+        case CAN_SPEED_1MBPS:
+        default:
+            t_config = TWAI_TIMING_CONFIG_1MBITS();
+            break;
+    }
     twai_filter_config_t f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
 
     esp_err_t res;

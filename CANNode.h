@@ -17,12 +17,20 @@ private:
 using CANReceiveCallback = std::function<void(uint32_t, const uint8_t*, uint8_t)>;
 using CANJSONCallback = std::function<void(const String&)>;
 
+// Supported CAN bus speeds. Default is 1 Mbps.
+enum CANSpeed {
+    CAN_SPEED_1MBPS,
+    CAN_SPEED_500KBPS,
+    CAN_SPEED_250KBPS,
+    CAN_SPEED_125KBPS
+};
+
 class CANNode {
 public:
     CANNode(uint32_t address, gpio_num_t txPin, gpio_num_t rxPin);
     ~CANNode();
 
-    void begin();
+    void begin(CANSpeed speed = CAN_SPEED_1MBPS);
     void send(const uint8_t* data, uint8_t len);
     bool receive(uint32_t& identifier, uint8_t* data, uint8_t& len, uint32_t timeoutMs = 100);
 
